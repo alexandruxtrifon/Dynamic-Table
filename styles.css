@@ -35,6 +35,20 @@ table, th, td {
   text-align: center;
 }
 
+table {
+  align-items: center;
+  justify-content: center;
+  margin: 20;
+  padding: 20px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 50px;
+  margin-bottom: auto;
+}
+
+#dataTable {
+  width: 80%;
+}
 th {
   font-weight: bold;
 }
