@@ -58,6 +58,8 @@ function renderTable(data) {
             headerRow.appendChild(th);
         });
         tableHead.appendChild(headerRow);
+        const buttonCell = document.createElement('th');
+        headerRow.appendChild(buttonCell);
 
         data.forEach(item => {
             const row = document.createElement('tr');
@@ -66,7 +68,31 @@ function renderTable(data) {
                 td.textContent = item[header];
                 row.appendChild(td);
             });
+
+            const duplicateButton = createButton('Duplicate', () => duplicateRow(row));
+            const deleteButton = createButton('Delete', () => deleteRow(row));
+            const buttonCell = document.createElement('td');
+            buttonCell.appendChild(duplicateButton);
+            buttonCell.appendChild(deleteButton);
+            row.appendChild(buttonCell);
+
             tableBody.appendChild(row);
         });
     }
+}
+
+function createButton(text, onClick) {
+    const button = document.createElement('button');
+    button.textContent = text;
+    button.addEventListener('click', onClick);
+    return button;
+}
+
+function duplicateRow(row) {
+    const newRow = row.cloneNode(true);
+    row.parentNode.insertBefore(newRow, row.nextSibling);
+}
+
+function deleteRow(row) {
+    row.parentNode.removeChild(row);
 }
