@@ -96,3 +96,12 @@ function duplicateRow(row) {
 function deleteRow(row) {
     row.parentNode.removeChild(row);
 }
+
+function openModal() {
+    const modal = document.getElementById('modal');
+    modal.style.display = 'block';
+}
+function closeModal() {
+    const modal = document.getElementById('modal');
+    modal.style.display = 'none';
+}
