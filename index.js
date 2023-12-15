@@ -109,8 +109,18 @@ function closeModal() {
 function exportTable() {
     const exportFormat = document.getElementById('exportFormat').value;
 
-    if (exportFormat === 'json') {
-        exportJSON();
+    switch(exportFormat) {
+        case 'json':
+            exportJSON();
+            break;
+        case 'xml':
+            exportXML();
+            break;
+        case 'csv':
+            exportCSV();
+            break;
+        default:
+            console.error('Unsupported export format'); 
     }
 }
 
@@ -140,5 +150,68 @@ function exportJSON() {
 
     document.body.appendChild(link);
     link.click();
+    document.body.removeChild(link);
+}
+
+function exportCSV() {
+    const tableBody = document.getElementById('tableBody');
+    const rows = tableBody.getElementsByTagName('tr');
+    let csvContent = '';
+
+    for (const row of rows) {
+        const cells = row.getElementsByTagName('td');
+        let rowData = '';
+
+        for (let i=0; i<cells.length -1; i++){
+            const value = cells[i].textContent;
+            rowData += `"${value}",`;
+        }
+        rowData = rowData.slice(0, -1) + '\n';
+        csvContent += rowData;
+    }
+    const headers = Array.from(document.getElementById('tableHead').getElementsByTagName('th'));
+    const headerRow = headers.slice(0, -1).map(th => `"${th.textContent}"`).join(',') + '\n';
+    csvContent = headerRow + csvContent;
+
+    console.log(csvContent);
+    const blob = new Blob([csvContent], {type: 'text/csv'});
+
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = 'table_data.csv';
+
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+}
+
+function exportXML() {
+    const tableBody = document.getElementById('tableBody');
+    const rows = tableBody.getElementsByTagName('tr');
+
+    let xmlString = '<?xml version="1.0" encoding="UTF-8"?>\n<data>\n';
+
+    for (const row of rows) {
+        const cells = row.getElementsByTagName('td');
+        xmlString += '  <item>\n';
+
+        for (let i=0; i < cells.length - 1; i++){
+            const header = document.getElementById('tableHead').getElementsByTagName('th')[i].textContent;
+            const value = cells[i].textContent;
+            xmlString += `  <${header}>${value}</${header}>\n`;
+        }
+        xmlString += '  </item>\n';
+    }
+    xmlString += '</data>';
+    console.log(xmlString);
+    const blob = new Blob([xmlString], {type: 'application/xml'});
+
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = 'table_data.xml';
+
+    document.body.appendChild(link);
+    link.click();
+
     document.body.removeChild(link);
 }
