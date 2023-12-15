@@ -11,15 +11,20 @@ reader.onload = function (e) {
     const content = e.target.result;
     //const extension = file.name.split('.').pop().toLowerCase();
     const fileType = getFileType(file.name);
-    if (fileType === 'json'){
-        populateTableJSON(content);
-    } else if (fileType === 'xml') {
-        populateTableXML(content);
-    } else if (fileType === 'csv') {
-        populateTableCSV(content);
-    }
-    else {
-        alert('Unsupported file format. Choose a JSON, XML or CSV file.');
+
+    switch(fileType){
+        case 'json':
+            populateTableJSON(content);
+            break;
+        case 'xml':
+            populateTableXML(content);
+            break;
+        case 'csv':
+            populateTableCSV(content);
+            break;
+        default:
+            alert('Unsupported file format. Choose a JSON, XML or CSV file.');
+
     }
 
 };
