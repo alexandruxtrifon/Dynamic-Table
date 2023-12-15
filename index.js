@@ -48,7 +48,7 @@ function renderTable(data) {
 
     tableHead.innerHTML = ''; // sterg placeholder
     tableBody.innerHTML = ''; // idem
-    
+
     if (data.length > 0) {
         const headers = Object.keys(data[0]);
         const headerRow = document.createElement('tr');
@@ -123,7 +123,7 @@ function exportJSON() {
         const cells = row.getElementsByTagName('td');
         const cellData = {};
 
-        for (let i=0; i<cells.length; i++){
+        for (let i=0; i < cells.length - 1; i++){
             const header = document.getElementById('tableHead').getElementsByTagName('th')[i].textContent;
             const value = cells[i].textContent;
             cellData[header] = value;
