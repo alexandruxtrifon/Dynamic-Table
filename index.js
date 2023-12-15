@@ -105,3 +105,40 @@ function closeModal() {
     const modal = document.getElementById('modal');
     modal.style.display = 'none';
 }
+
+function exportTable() {
+    const exportFormat = document.getElementById('exportFormat').value;
+
+    if (exportFormat === 'json') {
+        exportJSON();
+    }
+}
+
+function exportJSON() {
+    const tableBody = document.getElementById('tableBody');
+    const rows = tableBody.getElementsByTagName('tr');
+    const rowData = [];
+
+    for (const row of rows) {
+        const cells = row.getElementsByTagName('td');
+        const cellData = {};
+
+        for (let i=0; i<cells.length; i++){
+            const header = document.getElementById('tableHead').getElementsByTagName('th')[i].textContent;
+            const value = cells[i].textContent;
+            cellData[header] = value;
+        }
+        rowData.push(cellData)
+    }
+    const jsonString = JSON.stringify(rowData, null, 2);;
+    console.log(jsonString);
+    const blob = new Blob([jsonString], {type: 'application/json'});
+
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = 'table_data.json';
+
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+}

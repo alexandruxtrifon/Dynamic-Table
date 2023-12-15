@@ -30,6 +30,15 @@
 <div id="modal" class="modal">
     <div class="modal-content">
         <span class="close" onclick="closeModal()">&times;</span>
+
+        <label for="exportFormat">Select Export Format:</label>
+        <select id="exportFormat">
+            <option value="json">JSON</option>
+            <option value="xml">XML</option>
+            <option value="csv">CSV</option>
+        </select>
+
+        <button onclick="exportTable()">Export Table</button>
     </div>
 </div>
 <link rel="stylesheet" href="styles.css">
