@@ -43,32 +43,21 @@ function populateTableXML(xml) {
     const parser = new DOMParser();
     const xmlDoc = parser.parseFromString(xml, 'application/xml');
 
-    const tableHead = document.getElementById('tableHead');
-    const tableBody = document.getElementById('tableBody');
-    tableHead.innerHTML = '';
-    tableBody.innerHTML = '';
-
-    const headers = Array.from(xmlDoc.getElementsByTagName('item'[0].children));
-
-    const headerRow = document.createElement('tr');
-    headers.forEach(header => {
-        const th = document.createElement('th');
-        th.textContent = header.tagName;
-        headerRow.appendChild(th);
-    });
-    tableHead.appendChild(headerRow);
+    const headers = Array.from(xmlDoc.getElementsByTagName('item')[0].children);
+    const headerNames = headers.map(header => header.tagName);
 
     const items = xmlDoc.getElementsByTagName('item');
-    for (const item of items) {
-        const row = document.createElement('tr');
+    const data = Array.from(items).map(item => {
+        const rowData = {};
         Array.from(item.children).forEach(child => {
-            const td = document.createElement('td');
-            td.textContent = child.textContent;
-            row.appendChild(td);
+            rowData[child.tagName] = child.textContent;
         });
-        tableBody.appendChild(row);
-    }
+        return rowData;
+    });
+    const tableData = headerNames.length > 0 ? data : [];
+    renderTable(tableData);
 }
+
 function populateTableCSV(csv) {
 
 }
