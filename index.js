@@ -59,7 +59,9 @@ function populateTableXML(xml) {
 }
 
 function populateTableCSV(csv) {
-
+    const parsedData = Papa.parse(csv, {header: true, skipEmptyLines: true});
+    const tableData = parsedData.data.length > 0 ? parsedData.data : [];
+    renderTable(tab)
 }
 
 function renderTable(data) {
