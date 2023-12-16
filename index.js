@@ -9,7 +9,6 @@ function importFile() {
 const reader = new FileReader();
 reader.onload = function (e) {
     const content = e.target.result;
-    //const extension = file.name.split('.').pop().toLowerCase();
     const fileType = getFileType(file.name);
 
     switch(fileType){
@@ -41,7 +40,34 @@ function populateTableJSON(json) {
     renderTable(data);
 }
 function populateTableXML(xml) {
+    const parser = new DOMParser();
+    const xmlDoc = parser.parseFromString(xml, 'application/xml');
 
+    const tableHead = document.getElementById('tableHead');
+    const tableBody = document.getElementById('tableBody');
+    tableHead.innerHTML = '';
+    tableBody.innerHTML = '';
+
+    const headers = Array.from(xmlDoc.getElementsByTagName('item'[0].children));
+
+    const headerRow = document.createElement('tr');
+    headers.forEach(header => {
+        const th = document.createElement('th');
+        th.textContent = header.tagName;
+        headerRow.appendChild(th);
+    });
+    tableHead.appendChild(headerRow);
+
+    const items = xmlDoc.getElementsByTagName('item');
+    for (const item of items) {
+        const row = document.createElement('tr');
+        Array.from(item.children).forEach(child => {
+            const td = document.createElement('td');
+            td.textContent = child.textContent;
+            row.appendChild(td);
+        });
+        tableBody.appendChild(row);
+    }
 }
 function populateTableCSV(csv) {
 
