@@ -59,9 +59,21 @@ function populateTableXML(xml) {
 }
 
 function populateTableCSV(csv) {
-    const parsedData = Papa.parse(csv, {header: true, skipEmptyLines: true});
-    const tableData = parsedData.data.length > 0 ? parsedData.data : [];
-    renderTable(tab)
+    const lines = csv.split('\n');
+    const headers = lines[0].split(',');
+    const tableData = [];
+
+    for (let i=1; i<lines.length; i++){
+        const data = lines[i].split(',');
+        if(data.length === headers.length) {
+            const rowData = {};
+            for (let j = 0; j<headers.length; j++){
+                rowData[headers[j]] = data[j];
+            }
+            tableData.push(rowData);
+        }
+    }
+    renderTable(tableData);
 }
 
 function renderTable(data) {
@@ -186,13 +198,13 @@ function exportCSV() {
 
         for (let i=0; i<cells.length -1; i++){
             const value = cells[i].textContent;
-            rowData += `"${value}",`;
+            rowData += `${value},`;
         }
         rowData = rowData.slice(0, -1) + '\n';
         csvContent += rowData;
     }
     const headers = Array.from(document.getElementById('tableHead').getElementsByTagName('th'));
-    const headerRow = headers.slice(0, -1).map(th => `"${th.textContent}"`).join(',') + '\n';
+    const headerRow = headers.slice(0, -1).map(th => `${th.textContent}`).join(',') + '\n';
     csvContent = headerRow + csvContent;
 
     console.log(csvContent);
