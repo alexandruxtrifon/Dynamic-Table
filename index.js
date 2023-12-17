@@ -89,6 +89,8 @@ function renderTable(data) {
         headers.forEach(header => {
             const th = document.createElement('th');
             th.textContent = header;
+            //th.setAttribute('scope', 'col');
+
             headerRow.appendChild(th);
         });
         tableHead.appendChild(headerRow);
@@ -123,8 +125,40 @@ function createButton(text, onClick) {
 }
 
 function duplicateRow(row) {
-    const newRow = row.cloneNode(true);
-    row.parentNode.insertBefore(newRow, row.nextSibling);
+    //const newRow = row.cloneNode(true);
+
+    //const duplicateButton = createButton('Duplicate', () => duplicateRow(newRow));
+    //const deleteButton = createButton('Delete', () => deleteRow(newRow));
+    //newRow.appendChild(duplicateButton);
+    //newRow.appendChild(deleteButton);
+
+    //row.parentNode.insertBefore(newRow, row.nextSibling);
+
+    const tableBody = row.parentNode;
+
+    // Get the data from the original row
+    const rowData = Array.from(row.children).slice(0, -1).map(cell => cell.textContent);
+
+    // Create a new row and populate it with the copied data
+    const newRow = document.createElement('tr');
+    rowData.forEach(data => {
+        const td = document.createElement('td');
+        td.textContent = data;
+        newRow.appendChild(td);
+    });
+
+    // Create new buttons with event listeners for the duplicated row
+    const duplicateButton = createButton('Duplicate', () => duplicateRow(newRow));
+    const deleteButton = createButton('Delete', () => deleteRow(newRow));
+
+    // Append new buttons to the new row
+    const buttonCell = document.createElement('td');
+    buttonCell.appendChild(duplicateButton);
+    buttonCell.appendChild(deleteButton);
+    newRow.appendChild(buttonCell);
+
+    // Insert the new row after the original row
+    tableBody.insertBefore(newRow, row.nextSibling);
 }
 
 function deleteRow(row) {

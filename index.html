@@ -6,16 +6,24 @@
     <title>Dynamic Table</title>
 </head>
 
-<body>
-    <nav>
+<body class="bg-dark">
+    <nav class="">
         <input type="file" id="fileInput" accept=".json, .xml, .csv">
     </nav>
     <nav>
         <button onclick="importFile()">Import File</button>
         <button type="button" class="btn btn-primary">Primary</button>
     </nav>
+    <nav class="navbar bg-dark border-bottom border-body" data-bs-theme="dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">
+                <img src="./node_modules/bootstrap-icons/icons/table.svg" alt="logo" width="30" height="24" class="d-inline-block align-text-top">
+                Dynamic Table
+            </a>
+        </div>
+    </nav>
 
-<table id="dataTable">
+<table class="table table-dark table-hover" id="dataTable">
 
     <thead id="tableHead">
         <!---->
@@ -26,7 +34,7 @@
     </tbody>
 </table>
 
-<button class="modalButton" onclick="openModal()">Export</button>
+<button type="button" class="btn btn-primary" onclick="openModal()">Export</button>
 
 <div id="modal" class="modal">
     <div class="modal-content">
