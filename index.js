@@ -50,6 +50,13 @@ function eventListener() {
         checkTableModifications();
     });
 }
+function eventListenerButton() {
+    const tableBody = document.getElementById('tableBody');
+
+    tableBody.addEventListener('click', function(event) {
+        checkTableModifications();
+    });
+}
 
 const tableData = [];
 let originalTableData;
@@ -86,6 +93,9 @@ reader.onload = function (e) {
 
     originalTableData = getTableData();
     console.log("Original Table Data:", originalTableData);
+
+    const newRowButton = document.getElementById('newRowButton');
+    newRowButton.style.display = 'inline-block';
 
     makeTableEditable();
     eventListener();
@@ -217,10 +227,13 @@ function duplicateRow(row) {
     newRow.appendChild(buttonCell);
 
     tableBody.insertBefore(newRow, row.nextSibling);
+    makeTableEditable();
+    eventListenerButton();
 }
 
 function deleteRow(row) {
     row.parentNode.removeChild(row);
+    eventListenerButton();
 }
 
 function openModal() {
@@ -353,5 +366,30 @@ function makeTableEditable() {
             cells[j].setAttribute('contenteditable', true);
         }
     }
+}
+
+function addNewRow() {
+    const tableBody = document.getElementById('tableBody');
+    const headerCells = Array.from(document.getElementById('tableHead').querySelectorAll('th'));
+    const newRow = document.createElement('tr');
+
+    headerCells.slice(0, -1).forEach((header, index) => {
+        const td = document.createElement('td');
+        td.textContent = 'hjhjhhg';
+        newRow.appendChild(td);
+    });
+
+    const duplicateButton = createButton('Duplicate', () => duplicateRow(newRow));
+    const deleteButton = createButton('Delete', () => deleteRow(newRow));
+
+    const buttonCell = document.createElement('td');
+    buttonCell.appendChild(duplicateButton);
+    buttonCell.appendChild(deleteButton);
+    newRow.appendChild(buttonCell);
+
+    tableBody.appendChild(newRow);
+
+    enableExportButton();
+    makeTableEditable();
 }
 
