@@ -84,3 +84,27 @@ th {
   margin-top: 16px;
   margin-left: 13%;
 }
+
+.move {
+  margin-left: 10%;
+  margin-right: 90%;
+}
+
+.custom-input {
+  margin-top: 8px;
+  margin-left: 20%;
+  margin-right: 20%;
+}
+
+.navbar-custom {
+  padding-left: 12px;
+}
+.move-import {
+  margin-left: 20%;
+  margin-top: 16px;
+  display: none;
+}
+
+.img-custom {
+  padding-left: 12px;
+}

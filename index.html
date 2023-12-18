@@ -8,34 +8,39 @@
 
 <body class="bg-dark">
     <nav class="">
-        <input type="file" id="fileInput" accept=".json, .xml, .csv">
+        <input type="file" id="fileInputt" accept=".json, .xml, .csv">
     </nav>
     <nav>
-        <button onclick="importFile()">Import File</button>
-        <button type="button" class="btn btn-primary">Primary</button>
+        <button type="button" id="importButton" onclick="importFile()">Import File</button>
     </nav>
     <nav class="navbar bg-dark border-bottom border-body" data-bs-theme="dark">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#">
-                <img src="./node_modules/bootstrap-icons/icons/table.svg" alt="logo" width="30" height="24" class="d-inline-block align-text-top">
+            <div class="navbar-brand">
+                <img src="./node_modules/bootstrap-icons/icons/table.svg" alt="logo" width="30" height="24" class="align-text-top">
                 Dynamic Table
-            </a>
+            </div>
+            <div class="input-group">
+                <input type="file" class="form-control custom-input" id="fileInput" accept=".json, .xml, .csv">
+            </div>
+            <div class="input-group">
+                <button class="btn btn-primary move-import" type="button" onclick="importFile()">Import File</button>
+            </div>
         </div>
     </nav>
+    
+<div class="container">
+    <table class="table table-dark table-hover" id="dataTable">
+        <thead id="tableHead">
+            <!---->
+        </thead>
 
-<table class="table table-dark table-hover" id="dataTable">
+        <tbody id="tableBody">
+            <!---->
+        </tbody>
+    </table>
 
-    <thead id="tableHead">
-        <!---->
-    </thead>
-
-    <tbody id="tableBody">
-        <!---->
-    </tbody>
-</table>
-
-<button type="button" class="btn btn-primary" onclick="openModal()">Export</button>
-
+    <button type="button" id="exportButton" class="btn btn-primary move" onclick="openModal()" style="display: none;" disabled>Export</button>
+</div>
 <div id="modal" class="modal">
     <div class="modal-content">
         <span class="close" onclick="closeModal()">&times;</span>
@@ -47,7 +52,7 @@
             <option value="csv">CSV</option>
         </select>
 
-        <button onclick="exportTable()">Export Table</button>
+       <button class="btn btn-primary" type="button" onclick="exportTable()">Export Table</button>
     </div>
 </div>
 <link rel="stylesheet" href="styles.css">

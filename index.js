@@ -1,3 +1,58 @@
+function enableExportButton() {
+    const exportButton = document.getElementById('exportButton');
+    exportButton.removeAttribute('disabled');
+}
+function disableExportButton() {
+    const exportButton = document.getElementById('exportButton');
+    exportButton.setAttribute('disabled', 'true');
+}
+
+function arraysAreEqual(arr1, arr2) {
+    return JSON.stringify(arr1) === JSON.stringify(arr2);
+}
+
+function checkTableModifications() {
+    //enableExportButton();
+
+    const currentTableData = getTableData();
+    if (arraysAreEqual(currentTableData, originalTableData)) {
+        disableExportButton();
+    } else {
+        enableExportButton();
+    };
+    //console.log("Original Table Data:", originalTableData);
+    console.log("Current Table Data:", currentTableData);
+}
+
+function getTableData() {
+    const tableBody = document.getElementById('tableBody');
+    const rows = tableBody.getElementsByTagName('tr');
+    const tableData = [];
+
+    for (const row of rows) {
+        const cells = row.getElementsByTagName('td');
+        const rowData = {};
+
+        for (let i = 0; i < cells.length - 1; i++) {
+            const header = document.getElementById('tableHead').getElementsByTagName('th')[i].textContent;
+            const value = cells[i].textContent;
+            rowData[header] = value;
+        }
+        tableData.push(rowData);
+    }
+    return tableData;
+}
+
+function eventListener() {
+    const tableBody = document.getElementById('tableBody');
+
+    tableBody.addEventListener('input', function(event) {
+        checkTableModifications();
+    });
+}
+
+const tableData = [];
+let originalTableData;
 function importFile() {
     const fileInput = document.getElementById('fileInput');
     const file = fileInput.files[0];
@@ -23,8 +78,17 @@ reader.onload = function (e) {
             break;
         default:
             alert('Unsupported file format. Choose a JSON, XML or CSV file.');
+            return;
 
     }
+    const exportButton = document.getElementById('exportButton');
+    exportButton.style.display = 'inline-block';
+
+    originalTableData = getTableData();
+    console.log("Original Table Data:", originalTableData);
+
+    makeTableEditable();
+    eventListener();
 
 };
     reader.readAsText(file);
@@ -135,11 +199,8 @@ function duplicateRow(row) {
     //row.parentNode.insertBefore(newRow, row.nextSibling);
 
     const tableBody = row.parentNode;
-
-    // Get the data from the original row
     const rowData = Array.from(row.children).slice(0, -1).map(cell => cell.textContent);
 
-    // Create a new row and populate it with the copied data
     const newRow = document.createElement('tr');
     rowData.forEach(data => {
         const td = document.createElement('td');
@@ -147,17 +208,14 @@ function duplicateRow(row) {
         newRow.appendChild(td);
     });
 
-    // Create new buttons with event listeners for the duplicated row
     const duplicateButton = createButton('Duplicate', () => duplicateRow(newRow));
     const deleteButton = createButton('Delete', () => deleteRow(newRow));
 
-    // Append new buttons to the new row
     const buttonCell = document.createElement('td');
     buttonCell.appendChild(duplicateButton);
     buttonCell.appendChild(deleteButton);
     newRow.appendChild(buttonCell);
 
-    // Insert the new row after the original row
     tableBody.insertBefore(newRow, row.nextSibling);
 }
 
@@ -283,3 +341,17 @@ function exportXML() {
 
     document.body.removeChild(link);
 }
+
+function makeTableEditable() {
+    const tableBody = document.getElementById('tableBody');
+    const rows = tableBody.getElementsByTagName('tr');
+
+    for (let i = 0; i < rows.length; i++) {
+        const cells = rows[i].getElementsByTagName('td');
+
+        for (let j=0; j<cells.length; j++) {
+            cells[j].setAttribute('contenteditable', true);
+        }
+    }
+}
+
