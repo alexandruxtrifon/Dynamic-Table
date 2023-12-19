@@ -160,10 +160,12 @@ function renderTable(data) {
     if (data.length > 0) {
         const headers = Object.keys(data[0]);
         const headerRow = document.createElement('tr');
-        headers.forEach(header => {
+
+        headers.forEach((header, index) => {
             const th = document.createElement('th');
             th.textContent = header;
-            //th.setAttribute('scope', 'col');
+
+            th.onclick = () => sortBy(index);
 
             headerRow.appendChild(th);
         });
@@ -375,7 +377,7 @@ function addNewRow() {
 
     headerCells.slice(0, -1).forEach((header, index) => {
         const td = document.createElement('td');
-        td.textContent = 'hjhjhhg';
+        td.textContent = 'Placeholder';
         newRow.appendChild(td);
     });
 
@@ -393,3 +395,81 @@ function addNewRow() {
     makeTableEditable();
 }
 
+function sortTable(n) {
+    let table = document.getElementById("dataTable");
+    let rows = table.rows;
+    let switching = true;
+    let direction = "ascending";
+
+    while (switching) {
+        switching = false;
+
+        for (let i = 1; i < rows.length - 1; i++) {
+            let switchNeeded = false;
+            let x = rows[i].getElementsByTagName("td")[n];
+            let y = rows[i + 1].getElementsByTagName("td")[n];
+
+            if (direction == "ascending") {
+                if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+                    switchNeeded = true;
+                    break;
+                }
+            } else if (direction == "descending") {
+                if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+                    switchNeeded = true;
+                    break;
+                }
+            }
+        }
+
+        if (switchNeeded) {
+            rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+            switching = true;
+        } else {
+            if (count == 0 && direction == "ascending") {
+                direction = "descending";
+                switching = true;
+            }
+        }
+    }
+}
+
+cPrev = -1;
+
+function sortBy(c) {
+    rows = document.getElementById("dataTable").rows.length; 
+    columns = document.getElementById("dataTable").rows[0].cells.length;
+    arrTable = [...Array(rows)].map(e => Array(columns)); 
+
+    for (ro=0; ro<rows; ro++) {
+        for (co=0; co<columns; co++) {
+            arrTable[ro][co] = document.getElementById("dataTable").rows[ro].cells[co].innerHTML;
+        }
+    }
+
+    th = arrTable.shift();
+    
+    if (c !== cPrev) {
+        arrTable.sort(
+            function (a, b) {
+                if (a[c] === b[c]) {
+                    return 0;
+                } else {
+                    return (a[c] < b[c]) ? -1 : 1;
+                }
+            }
+        );
+    } else {
+        arrTable.reverse();
+    }
+    
+    cPrev = c;
+
+    arrTable.unshift(th);
+
+    for (ro=0; ro<rows; ro++) {
+        for (co=0; co<columns; co++) {
+            document.getElementById("dataTable").rows[ro].cells[co].innerHTML = arrTable[ro][co];
+        }
+    }
+}
