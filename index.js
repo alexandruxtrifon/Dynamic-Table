@@ -181,8 +181,8 @@ function renderTable(data) {
                 row.appendChild(td);
             });
 
-            const duplicateButton = createButton('Duplicate', () => duplicateRow(row));
-            const deleteButton = createButton('Delete', () => deleteRow(row));
+            const duplicateButton = createButton('Duplicate', () => duplicateRow(row), 'btn btn-success', {marginRight: '5px', marginBottom: '5px'});
+            const deleteButton = createButton('Delete', () => deleteRow(row), 'btn btn-danger', {marginLeft: '5px', marginTop: '5px'});
             const buttonCell = document.createElement('td');
             buttonCell.appendChild(duplicateButton);
             buttonCell.appendChild(deleteButton);
@@ -193,10 +193,21 @@ function renderTable(data) {
     }
 }
 
-function createButton(text, onClick) {
+function createButton(text, onClick, className, styles) {
     const button = document.createElement('button');
     button.textContent = text;
     button.addEventListener('click', onClick);
+    button.classList.add('btn')
+    
+    if (className) {
+        const classes = className.split(' ');
+        button.classList.add(...classes);
+    };
+
+    if (styles) {
+        Object.assign(button.style, styles);
+    }
+
     return button;
 }
 
@@ -220,8 +231,8 @@ function duplicateRow(row) {
         newRow.appendChild(td);
     });
 
-    const duplicateButton = createButton('Duplicate', () => duplicateRow(newRow));
-    const deleteButton = createButton('Delete', () => deleteRow(newRow));
+    const duplicateButton = createButton('Duplicate', () => duplicateRow(newRow), 'btn btn-success', { marginRight: '5px', marginBottom: '5px'});
+    const deleteButton = createButton('Delete', () => deleteRow(newRow), 'btn btn-danger', {marginLeft: '5px', marginTop: '5px'});
 
     const buttonCell = document.createElement('td');
     buttonCell.appendChild(duplicateButton);
@@ -381,8 +392,8 @@ function addNewRow() {
         newRow.appendChild(td);
     });
 
-    const duplicateButton = createButton('Duplicate', () => duplicateRow(newRow));
-    const deleteButton = createButton('Delete', () => deleteRow(newRow));
+    const duplicateButton = createButton('Duplicate', () => duplicateRow(newRow), 'btn btn-success', {marginRight: '5px', marginBottom: '5px'});
+    const deleteButton = createButton('Delete', () => deleteRow(newRow), 'btn btn-danger', { marginLeft: '5px', marginTop: '5px'});
 
     const buttonCell = document.createElement('td');
     buttonCell.appendChild(duplicateButton);
