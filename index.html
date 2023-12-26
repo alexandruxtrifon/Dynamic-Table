@@ -37,17 +37,29 @@
     <button type="button" id="exportButton" class="btn btn-primary move" onclick="openModal()" style="display: none;" disabled>Export</button>
 </div>
 <div id="modal" class="modal">
-    <div class="modal-content">
-        <span class="close" onclick="closeModal()">&times;</span>
-
-        <label for="exportFormat">Select Export Format:</label>
-        <select id="exportFormat">
-            <option value="json">JSON</option>
-            <option value="xml">XML</option>
-            <option value="csv">CSV</option>
-        </select>
-
-       <button class="btn btn-primary" type="button" onclick="exportTable()">Export Table</button>
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content bg-dark">
+            <div class="modal-header bg-dark">
+                <h5 class="modal-title fs-5 text-light">Export</h5>
+       <!-- <span class="close" onclick="closeModal()">&times;</span>-->
+                <button type="button" onclick="closeModal()" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+                <div class="modal-body">
+                   <!-- <label for="exportFormat">Select Export Format: </label>-->
+                    <h6 class="modal-title fs-6 text-light">Select Export Format:</h6>
+                </div>
+                <div class="modal-body">
+                    <select id="exportFormat" class="form-select bg-dark text-light">
+                <option value="json">JSON</option>
+                <option value="xml">XML</option>
+                <option value="csv">CSV</option>
+            </select>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="closeModal()">Close</button>
+                    <button type="button" class="btn btn-primary" onclick="exportTable()">Export Table</button>
+                </div>
+                </div>
+        </div>
     </div>
 </div>
 <link rel="stylesheet" href="styles.css">

@@ -181,8 +181,8 @@ function renderTable(data) {
                 row.appendChild(td);
             });
 
-            const duplicateButton = createButton('Duplicate', () => duplicateRow(row), 'btn btn-success', {marginRight: '5px', marginBottom: '5px'});
-            const deleteButton = createButton('Delete', () => deleteRow(row), 'btn btn-danger', {marginLeft: '5px', marginTop: '5px'});
+            const duplicateButton = createButton('Duplicate', () => duplicateRow(row), 'btn btn-success', { marginLeft: '5px', marginRight: '5px', marginTop: '5px', marginBottom: '5px'});
+            const deleteButton = createButton('Delete', () => deleteRow(row), 'btn btn-danger', { marginLeft: '5px', marginRight: '5px', marginTop: '5px', marginBottom: '5px'});
             const buttonCell = document.createElement('td');
             buttonCell.appendChild(duplicateButton);
             buttonCell.appendChild(deleteButton);
@@ -231,8 +231,8 @@ function duplicateRow(row) {
         newRow.appendChild(td);
     });
 
-    const duplicateButton = createButton('Duplicate', () => duplicateRow(newRow), 'btn btn-success', { marginRight: '5px', marginBottom: '5px'});
-    const deleteButton = createButton('Delete', () => deleteRow(newRow), 'btn btn-danger', {marginLeft: '5px', marginTop: '5px'});
+    const duplicateButton = createButton('Duplicate', () => duplicateRow(newRow), 'btn btn-success', { marginLeft: '5px', marginRight: '5px', marginTop: '5px', marginBottom: '5px'});
+    const deleteButton = createButton('Delete', () => deleteRow(newRow), 'btn btn-danger', { marginLeft: '5px', marginRight: '5px', marginTop: '5px', marginBottom: '5px'});
 
     const buttonCell = document.createElement('td');
     buttonCell.appendChild(duplicateButton);
@@ -375,7 +375,7 @@ function makeTableEditable() {
     for (let i = 0; i < rows.length; i++) {
         const cells = rows[i].getElementsByTagName('td');
 
-        for (let j=0; j<cells.length; j++) {
+        for (let j=0; j < cells.length - 1; j++) {
             cells[j].setAttribute('contenteditable', true);
         }
     }
@@ -392,8 +392,8 @@ function addNewRow() {
         newRow.appendChild(td);
     });
 
-    const duplicateButton = createButton('Duplicate', () => duplicateRow(newRow), 'btn btn-success', {marginRight: '5px', marginBottom: '5px'});
-    const deleteButton = createButton('Delete', () => deleteRow(newRow), 'btn btn-danger', { marginLeft: '5px', marginTop: '5px'});
+    const duplicateButton = createButton('Duplicate', () => duplicateRow(newRow), 'btn btn-success', { marginLeft: '5px', marginRight: '5px', marginTop: '5px', marginBottom: '5px'});
+    const deleteButton = createButton('Delete', () => deleteRow(newRow), 'btn btn-danger', { marginLeft: '5px', marginRight: '5px', marginTop: '5px', marginBottom: '5px'});
 
     const buttonCell = document.createElement('td');
     buttonCell.appendChild(duplicateButton);
